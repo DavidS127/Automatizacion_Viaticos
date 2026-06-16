@@ -1,0 +1,175 @@
+function doPost(e) {
+
+  const sheet =
+    SpreadsheetApp
+      .getActiveSpreadsheet()
+      .getActiveSheet();
+
+  const d =
+    JSON.parse(e.postData.contents);
+
+  let peajes = 0;
+  let urea = 0;
+  let parqueadero = 0;
+  let cargue = 0;
+  let descargue = 0;
+  let comision = 0;
+  let lavado = 0;
+  let otros = 0;
+
+  let motivo = [];
+
+  (d.gastos || []).forEach(g => {
+
+    const concepto =
+      (g.concepto || "")
+        .toUpperCase()
+        .trim();
+
+    const valor =
+      Number(g.valor) || 0;
+
+    if (concepto.includes("PEAJE")) {
+
+      peajes += valor;
+
+    } else if (concepto.includes("UREA")) {
+
+      urea += valor;
+
+    } else if (concepto.includes("PARQUEADERO")) {
+
+      parqueadero += valor;
+
+    } else if (
+      concepto.includes("CARGUE M/CIA") ||
+      concepto.includes("CARROZADA")
+    ) {
+
+      cargue += valor;
+
+    } else if (
+      concepto.includes("DESCARGUE M/CIA") ||
+      concepto.includes("DESCARROZADA")
+    ) {
+
+      descargue += valor;
+
+    } else if (
+      concepto.includes("COMISION")
+    ) {
+
+      comision += valor;
+
+    } else if (
+      concepto.includes("LAVADO")
+    ) {
+
+      lavado += valor;
+
+    } else if (
+      concepto.includes("EVENTUAL")
+    ) {
+
+      otros += valor;
+
+      if (g.nota) {
+        motivo.push(g.nota);
+      }
+
+    }
+
+  });
+
+  const acpm =
+    Number(d.acpm_valor) || 0;
+
+  const anticipos =
+    Number(d.anticipo1) || 0;
+
+  const flete =
+    Number(d.flete) || 0;
+
+  const ruta =
+    (d.origen || "") +
+    " - " +
+    (d.destino || "");
+
+  const motivoTexto =
+    motivo.join(" | ");
+
+  sheet.appendRow([
+
+    d.fecha,                 // FECHA
+    d.mnf,                   // MNF
+    d.placa,                 // PLACA
+    ruta,                    // RUTA
+    "",                      // MES CIERRE
+    d.conductor,             // CONDUCTOR
+
+    d.km_origen,             // KM SALIDA
+    "",                      // KM LLEGADA
+    d.km_recorrido,          // KMS RECORRIDOS
+
+    flete,                   // FLETE
+    anticipos,               // ANTICIPOS
+
+    peajes,                  // PEAJES
+    d.galones,               // GALONES
+
+    "",                      // PRECIO
+    "",                      // KM/GL
+    "",                      // LITROS
+
+    urea,                    // UREA
+    parqueadero,             // PARQUEADERO
+
+    cargue,                  // CARGUE
+    descargue,               // DESCARGUE
+
+    comision,                // COMISION
+    "",                      // BANCOS
+
+    lavado,                  // LAVADO
+    "",                      // M/TTO
+    "",                      // DESCRIPCION
+
+    otros,                   // OTROS
+    motivoTexto,             // MOTIVO
+
+    "",                      // % CONDUCTOR
+    "",                      // GLN TERPEL
+    "",                      // PRECIO TERPEL
+
+    "",                      // TOTAL GASTOS
+    "",                      // UTILIDAD BRUTA
+
+    "",                      // RENT VIAJE
+    "",                      // SUELDO CONDUCTOR
+
+    d.empresa,               // EMPRESA
+
+    "",                      // SALDO
+
+    "",                      // FECHA DE PAGO
+    "",                      // VR CANCELADO
+    "",                      // ESTADO PAGO
+    "",                      // FACT. ELECT.
+    "",                      // PROVEEDOR
+    "",                      // PRODUCTO
+    "",                      // VALOR
+
+    ""                       // UTILIDAD NETA
+
+  ]);
+
+  return ContentService
+    .createTextOutput(
+      JSON.stringify({
+        status: "ok"
+      })
+    )
+    .setMimeType(
+      ContentService.MimeType.JSON
+    );
+}

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legalización de Viáticos</title>
+</head>
+<body>
+
+<div class="header">
+    <h1>Legalización de Viáticos</h1>
+    <span>Group Super Express</span>
+</div>
+
+<div class="container">
+
+    <div class="step-bar">
+        <div class="step active" id="sb1"><span class="step-num">1</span>Subir formulario</div>
+        <div class="step"        id="sb2"><span class="step-num">2</span>Revisar datos</div>
+        <div class="step"        id="sb3"><span class="step-num">3</span>Enviar a Sheets</div>
+    </div>
+
+    <!-- ── STEP 1 ─────────────────────────────────────────── -->
+    <div id="step1" class="visible">
+
+        <div class="card">
+            <div class="section-title">API Key de Gemini</div>
+            <div class="api-row">
+                <input type="password" id="apiKey" placeholder="AIza..." />
+                <button class="btn" onclick="toggleKey()">👁 Ver</button>
+            </div>
+            <p class="hint">Tu clave se usa solo en este navegador y nunca se almacena.</p>
+        </div>
+
+        <div class="card">
+            <div class="section-title">Subir formulario de viáticos</div>
+            <div class="upload-zone" id="uploadZone"
+                 onclick="document.getElementById('fileInput').click()">
+                <span class="icon">📄</span>
+                <p>Haz clic o arrastra el formulario aquí</p>
+                <small>JPG, PNG o PDF — foto o escaneado</small>
+            </div>
+            <input type="file" id="fileInput" accept="image/*,application/pdf" />
+            <div id="previewContainer"></div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="extractData()">
+                ✨ Extraer datos con Gemini →
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ── STEP 2 ─────────────────────────────────────────── -->
+    <div id="step2">
+
+        <div id="alertBox"></div>
+
+        <div class="card">
+            <div class="section-title">Encabezado</div>
+            <div class="fields-grid">
+                <div class="field-group">
+                    <label>Fecha</label>
+                    <input id="f_fecha" placeholder="dd/mm/aaaa"/>
+                </div>
+                <div class="field-group">
+                    <label>Placa</label>
+                    <input id="f_placa"/>
+                </div>
+                <div class="field-group">
+                    <label>Conductor</label>
+                    <input id="f_conductor"/>
+                </div>
+                <div class="field-group">
+                    <label>Cédula</label>
+                    <input id="f_cedula"/>
+                </div>
+                <div class="field-group">
+                    <label>Empresa</label>
+                    <input id="f_empresa"/>
+                </div>
+                <div class="field-group">
+                    <label>Origen</label>
+                    <input id="f_origen"/>
+                </div>
+                <div class="field-group">
+                    <label>Destino</label>
+                    <input id="f_destino"/>
+                </div>
+                <div class="field-group">
+                    <label>N° MNF</label>
+                    <input id="f_mnf"/>
+                </div>
+            </div>
+
+            <div class="section-title">Anticipo y Flete</div>
+            <div class="fields-grid">
+                <div class="field-group">
+                    <label>Anticipo 1</label>
+                    <input id="f_anticipo1"
+                           placeholder="$0"
+                           oninput="handleMoneyInput(this)"
+                           onfocus="moneyFocus(this)"
+                           onblur="moneyBlur(this)"/>
+                </div>
+                <div class="field-group">
+                    <label>Flete</label>
+                    <input id="f_flete"
+                           placeholder="$0"
+                           oninput="handleMoneyInput(this)"
+                           onfocus="moneyFocus(this)"
+                           onblur="moneyBlur(this)"/>
+                </div>
+                <div class="field-group">
+                    <label>Saldo</label>
+                    <input id="f_saldo"
+                           placeholder="$0"
+                           oninput="handleMoneyInput(this)"
+                           onfocus="moneyFocus(this)"
+                           onblur="moneyBlur(this)"/>
+                </div>
+            </div>
+
+            <div class="section-title">ACPM</div>
+            <div class="fields-grid">
+                <div class="field-group">
+                    <label>Km Origen</label>
+                    <input id="f_km_origen"/>
+                </div>
+                <div class="field-group">
+                    <label>Km Recorrido</label>
+                    <input id="f_km_rec"/>
+                </div>
+                <div class="field-group">
+                    <label>Galones</label>
+                    <input id="f_galones"/>
+                </div>
+                <div class="field-group">
+                    <label>Valor ACPM</label>
+                    <input id="f_acpm"
+                           placeholder="$0"
+                           oninput="handleMoneyInput(this)"
+                           onfocus="moneyFocus(this)"
+                           onblur="moneyBlur(this)"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section-title">Gastos</div>
+            <table class="gastos-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th style="width:150px;text-align:right">Valor</th>
+                        <th>Nota / Descripción</th>
+                        <th style="width:36px"></th>
+                    </tr>
+                </thead>
+                <tbody id="gastosBody"></tbody>
+            </table>
+            <button class="btn"
+                    style="font-size:12px;padding:5px 12px;margin-top:4px"
+                    onclick="addRow('','','')">
+                + Agregar fila
+            </button>
+
+
+        </div>
+
+        <div class="actions">
+            <button class="btn" onclick="goStep(1)">← Volver</button>
+            <button class="btn btn-primary" onclick="goStep(3)">Continuar →</button>
+        </div>
+
+    </div>
+
+    <!-- ── STEP 3 ─────────────────────────────────────────── -->
+    <div id="step3">
+
+        <div class="card">
+            <div class="section-title">Enviar a Google Sheets</div>
+
+            <div class="alert alert-info">
+                Necesitas un <strong>Web App URL</strong> de Google Apps Script.
+            </div>
+
+            <div class="sheets-row">
+                <label style="font-size:13px;color:#555;white-space:nowrap">URL Web App:</label>
+                <input type="url" id="sheetsUrl"
+                       placeholder="https://script.google.com/macros/s/..."/>
+            </div>
+
+            <div class="actions" style="margin-top:16px">
+                <button class="btn" onclick="goStep(2)">← Volver</button>
+                <button class="btn btn-success" onclick="sendSheets()">
+                    Enviar a Google Sheets ✓
+                </button>
+            </div>
+
+            <div id="sendResult" style="margin-top:12px"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/fileManager.js"></script>
+<script src="js/formManager.js"></script>
+<script src="js/geminiService.js"></script>
+<script src="js/sheetsService.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
