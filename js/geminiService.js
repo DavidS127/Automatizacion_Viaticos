@@ -1,13 +1,9 @@
 async function extractData() {
 
-    const key =
-        document
-            .getElementById('apiKey')
-            .value
-            .trim();
+   const key = GEMINI_API_KEY;   // ← antes: document.getElementById('apiKey').value.trim()
 
     if (!key) {
-        alert('Ingresa tu API Key de Gemini.');
+        alert('No se encontró la API Key. Verifica config.local.js');
         return;
     }
 
@@ -15,7 +11,7 @@ async function extractData() {
         alert('Sube primero el formulario.');
         return;
     }
-
+    
     goStep(2);
 
     document.getElementById('alertBox')

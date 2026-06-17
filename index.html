@@ -25,15 +25,6 @@
     <div id="step1" class="visible">
 
         <div class="card">
-            <div class="section-title">API Key de Gemini</div>
-            <div class="api-row">
-                <input type="password" id="apiKey" placeholder="AIza..." />
-                <button class="btn" onclick="toggleKey()">👁 Ver</button>
-            </div>
-            <p class="hint">Tu clave se usa solo en este navegador y nunca se almacena.</p>
-        </div>
-
-        <div class="card">
             <div class="section-title">Subir formulario de viáticos</div>
             <div class="upload-zone" id="uploadZone"
                  onclick="document.getElementById('fileInput').click()">
@@ -211,6 +202,7 @@
 <script src="js/ui.js"></script>
 <script src="js/fileManager.js"></script>
 <script src="js/formManager.js"></script>
+<script src="js/config.local.js"></script>
 <script src="js/geminiService.js"></script>
 <script src="js/sheetsService.js"></script>
 <script src="js/app.js"></script>
