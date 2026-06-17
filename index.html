@@ -58,7 +58,8 @@
                 </div>
                 <div class="field-group">
                     <label>Placa</label>
-                    <input id="f_placa"/>
+                    <input id="f_placa" oninput="validarPlaca()"/>
+                    <small id="placaWarning" style="display:none;color:#c62828;font-size:11px;margin-top:4px;display:block;"></small>
                 </div>
                 <div class="field-group">
                     <label>Conductor</label>
@@ -173,16 +174,6 @@
 
         <div class="card">
             <div class="section-title">Enviar a Google Sheets</div>
-
-            <div class="alert alert-info">
-                Necesitas un <strong>Web App URL</strong> de Google Apps Script.
-            </div>
-
-            <div class="sheets-row">
-                <label style="font-size:13px;color:#555;white-space:nowrap">URL Web App:</label>
-                <input type="url" id="sheetsUrl"
-                       placeholder="https://script.google.com/macros/s/..."/>
-            </div>
 
             <div class="actions" style="margin-top:16px">
                 <button class="btn" onclick="goStep(2)">← Volver</button>

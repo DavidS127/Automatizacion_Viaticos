@@ -51,56 +51,56 @@ function fillForm(d) {
         addRow(nombre, "", "");
     });
 
-let idxEventual = 1;
+    let idxEventual = 1;
 
-(d.gastos || []).forEach(g => {
+    (d.gastos || []).forEach(g => {
 
-    const conceptoIA =
-        (g.concepto || "")
-        .toUpperCase()
-        .trim();
+        const conceptoIA =
+            (g.concepto || "")
+            .toUpperCase()
+            .trim();
 
-    if (conceptoIA.includes("EVENTUAL")) {
+        if (conceptoIA.includes("EVENTUAL")) {
 
-        const fila =
-            document.querySelectorAll('#gastosBody tr')[11 + idxEventual];
+            const fila =
+                document.querySelectorAll('#gastosBody tr')[11 + idxEventual];
 
-        if (fila) {
+            if (fila) {
 
-            const inputs = fila.querySelectorAll('input');
-
-            inputs[1].value = g.valor;
-            inputs[2].value = g.nota || '';
-
-            idxEventual++;
-        }
-
-        return;
-    }
-
-    document
-        .querySelectorAll('#gastosBody tr')
-        .forEach(row => {
-
-            const inputs = row.querySelectorAll('input');
-
-            const conceptoFila =
-                inputs[0]
-                .value
-                .toUpperCase()
-                .trim();
-
-            if (
-                conceptoFila === conceptoIA
-            ) {
+                const inputs = fila.querySelectorAll('input');
 
                 inputs[1].value = g.valor;
                 inputs[2].value = g.nota || '';
+
+                idxEventual++;
             }
-        });
-});
+
+            return;
+        }
+
+        document
+            .querySelectorAll('#gastosBody tr')
+            .forEach(row => {
+
+                const inputs = row.querySelectorAll('input');
+
+                const conceptoFila =
+                    inputs[0]
+                    .value
+                    .toUpperCase()
+                    .trim();
+
+                if (conceptoFila === conceptoIA) {
+                    inputs[1].value = g.valor;
+                    inputs[2].value = g.nota || '';
+                }
+            });
+    });
 
     recalc();
+
+    // ── Validar la placa apenas Gemini termina de llenar el formulario ──
+    validarPlaca();
 }
 
 function addRow(c = '', v = '', n = '') {
@@ -149,10 +149,15 @@ function addRow(c = '', v = '', n = '') {
 }
 
 function recalc() {
+    // (corregido: antes sumaba strings sin convertir a número)
     let total = 0;
     document.querySelectorAll('#gastosBody tr').forEach(r => {
-        total += r.querySelectorAll('input')[1].value;
+        total += parseFloat(
+            r.querySelectorAll('input')[1].value.replace(/[^0-9.-]/g, '')
+        ) || 0;
     });
+    // total ya no se muestra en pantalla, pero queda disponible
+    // si luego lo necesitas mostrar o usar en alguna validación
 }
 
 function getPayload() {
@@ -230,6 +235,10 @@ function getPayload() {
         flete:
             document.getElementById('f_flete').value,
 
+        // (corregido: faltaba este campo, getPayload no lo devolvía)
+        saldo:
+            document.getElementById('f_saldo').value,
+
         km_origen:
             document.getElementById('f_km_origen').value,
 
@@ -242,6 +251,42 @@ function getPayload() {
         acpm_valor:
             document.getElementById('f_acpm').value,
 
-        gastos
+        gastos,
+
+        totalGastos: tg
     };
+}
+
+function validarPlaca() {
+
+    const input = document.getElementById('f_placa');
+    const warning = document.getElementById('placaWarning');
+
+    if (!input || !warning) {
+        console.warn('validarPlaca: faltan elementos #f_placa o #placaWarning en el HTML');
+        return;
+    }
+
+    const placa = normalizarPlaca(input.value);
+
+    // Si el campo está vacío, no mostrar nada todavía
+    if (!placa) {
+        warning.style.display = 'none';
+        input.style.borderColor = '';
+        input.title = '';
+        return;
+    }
+
+    const destino = resolverSheetPorPlaca(placa);
+
+    if (destino) {
+        warning.style.display = 'none';
+        input.style.borderColor = '#2e7d32'; // verde = encontrada
+        input.title = `Se enviará a: ${destino.sheetName}`;
+    } else {
+        warning.style.display = 'block';
+        warning.textContent = '⚠️ Placa no registrada en ninguna lista. Verifica que esté bien escrita.';
+        input.style.borderColor = '#c62828'; // rojo = no encontrada
+        input.title = '';
+    }
 }
