@@ -42,15 +42,15 @@ function doPost(e) {
       parqueadero += valor;
 
     } else if (
-      concepto.includes("CARGUE M/CIA") ||
-      concepto.includes("CARROZADA")
+      concepto === "CARGUE M/CIA" ||
+      concepto === "CARROZADA"
     ) {
 
       cargue += valor;
 
     } else if (
-      concepto.includes("DESCARGUE M/CIA") ||
-      concepto.includes("DESCARROZADA")
+      concepto === "DESCARGUE M/CIA" ||
+      concepto === "DESCARROZADA"
     ) {
 
       descargue += valor;
@@ -96,7 +96,7 @@ function doPost(e) {
     (d.destino || "");
 
   const motivoTexto =
-    motivo.join(" | ");
+    motivo.join(" , ").toUpperCase();
 
   sheet.appendRow([
 
