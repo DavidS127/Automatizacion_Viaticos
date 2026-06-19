@@ -42,6 +42,7 @@ function fillForm(d) {
         "COMISION 1",
         "COMISION 2",
         "LAVADO",
+        "MANTENIMIENTO",
         "GASTOS EVENTUALES 1",
         "GASTOS EVENTUALES 2",
         "GASTOS EVENTUALES 3"
@@ -63,7 +64,7 @@ function fillForm(d) {
         if (conceptoIA.includes("EVENTUAL")) {
 
             const fila =
-                document.querySelectorAll('#gastosBody tr')[11 + idxEventual];
+                document.querySelectorAll('#gastosBody tr')[12 + idxEventual];
 
             if (fila) {
 

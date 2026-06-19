@@ -15,9 +15,11 @@ function doPost(e) {
   let descargue = 0;
   let comision = 0;
   let lavado = 0;
+  let mantenimiento = 0;     // ← NUEVO acumulador
   let otros = 0;
 
   let motivo = [];
+  let descripcionMtto = [];  // ← NUEVO array para las notas de mantenimiento
 
   (d.gastos || []).forEach(g => {
 
@@ -68,6 +70,16 @@ function doPost(e) {
       lavado += valor;
 
     } else if (
+      concepto.includes("MANTENIMIENTO")   // ← NUEVO bloque
+    ) {
+
+      mantenimiento += valor;
+
+      if (g.nota) {
+        descripcionMtto.push(g.nota);
+      }
+
+    } else if (
       concepto.includes("EVENTUAL")
     ) {
 
@@ -97,6 +109,9 @@ function doPost(e) {
 
   const motivoTexto =
     motivo.join(" , ").toUpperCase();
+
+  const descripcionMttoTexto =          // ← NUEVO texto unido
+    descripcionMtto.join(" , ").toUpperCase();
 
   sheet.appendRow([
 
@@ -131,8 +146,8 @@ function doPost(e) {
     "",                      // BANCOS
 
     lavado,                  // LAVADO
-    "",                      // M/TTO
-    "",                      // DESCRIPCION
+    mantenimiento,            // ← CAMBIO: M/TTO ahora usa la variable real
+    descripcionMttoTexto,     // ← CAMBIO: DESCRIPCION ahora usa la nota real
 
     otros,                   // OTROS
     motivoTexto,             // MOTIVO
