@@ -8,6 +8,8 @@ function doPost(e) {
   const d =
     JSON.parse(e.postData.contents);
 
+  let acpmTerpel = 0;
+  let acpmEfectivo = 0;
   let peajes = 0;
   let urea = 0;
   let parqueadero = 0;
@@ -31,7 +33,15 @@ function doPost(e) {
     const valor =
       Number(g.valor) || 0;
 
-    if (concepto.includes("PEAJE")) {
+   if (concepto.includes("ACPM TERPEL")) {
+
+      acpmTerpel += valor;
+
+    } else if (concepto.includes("ACPM EFECTIVO")) {
+
+      acpmEfectivo += valor;
+
+    } else if (concepto.includes("PEAJE")) {
 
       peajes += valor;
 
@@ -93,9 +103,6 @@ function doPost(e) {
 
   });
 
-  const acpm =
-    Number(d.acpm_valor) || 0;
-
   const anticipos =
     Number(d.anticipo1) || 0;
 
@@ -122,17 +129,17 @@ function doPost(e) {
     "",                      // MES CIERRE
     d.conductor,             // CONDUCTOR
 
-    d.km_origen,             // KM SALIDA
+    d.km_inicio,             // KM SALIDA
     "",                      // KM LLEGADA
-    d.km_recorrido,          // KMS RECORRIDOS
+    "",                      // KMS RECORRIDOS
 
     flete,                   // FLETE
     anticipos,               // ANTICIPOS
 
     peajes,                  // PEAJES
-    d.galones,               // GALONES
+    d.galones_efectivo,      // GALONES EFECTIVO
 
-    "",                      // PRECIO
+    acpmEfectivo,            // PRECIO ACPM EFECTIVO
     "",                      // KM/GL
     "",                      // LITROS
 
@@ -153,8 +160,8 @@ function doPost(e) {
     motivoTexto,             // MOTIVO
 
     "",                      // % CONDUCTOR
-    "",                      // GLN TERPEL
-    "",                      // PRECIO TERPEL
+    d.galones_terpel,        // GLN TERPEL
+    acpmTerpel,              // PRECIO TERPEL
 
     "",                      // TOTAL GASTOS
     "",                      // UTILIDAD BRUTA

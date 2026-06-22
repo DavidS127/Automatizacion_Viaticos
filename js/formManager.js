@@ -9,7 +9,7 @@ function fillForm(d) {
         }
     };
 
-    s('f_fecha', d.fecha);
+    s('f_fecha_viaje', d.fecha_viaje);
     s('f_placa', d.placa);
     s('f_conductor', d.conductor);
     s('f_cedula', d.cedula);
@@ -22,16 +22,16 @@ function fillForm(d) {
     s('f_flete', d.flete);
     s('f_saldo', d.saldo);
 
-    s('f_km_origen', d.km_origen);
-    s('f_km_rec', d.km_recorrido);
-    s('f_galones', d.gal_origen);
-    s('f_acpm', d.acpm_valor);
+    s('f_km_origen', d.km_inicio);
+    s('f_galones_terpel', d.galones_terpel);
+    s('f_galones_efectivo', d.galones_efectivo);
+
 
     document.getElementById('gastosBody').innerHTML = '';
 
     const gastosFijos = [
-        "ACPM ORIGEN",
-        "ACPM RECORRIDO",
+        "ACPM TERPEL",
+        "ACPM EFECTIVO",
         "PEAJES",
         "UREA",
         "PARQUEADERO",
@@ -210,7 +210,7 @@ function getPayload() {
     return {
 
         fecha:
-            document.getElementById('f_fecha').value,
+            document.getElementById('f_fecha_viaje').value,
 
         placa:
             document.getElementById('f_placa').value,
@@ -238,21 +238,14 @@ function getPayload() {
         flete:
             document.getElementById('f_flete').value,
 
-        // (corregido: faltaba este campo, getPayload no lo devolvía)
-        saldo:
-            document.getElementById('f_saldo').value,
-
-        km_origen:
+        km_inicio:        
             document.getElementById('f_km_origen').value,
 
-        km_recorrido:
-            document.getElementById('f_km_rec').value,
+        galones_terpel:    
+            document.getElementById('f_galones_terpel').value,
 
-        galones:
-            document.getElementById('f_galones').value,
-
-        acpm_valor:
-            document.getElementById('f_acpm').value,
+        galones_efectivo:  
+            document.getElementById('f_galones_efectivo').value,
 
         gastos,
 

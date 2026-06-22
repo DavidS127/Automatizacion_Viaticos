@@ -54,7 +54,7 @@
             <div class="fields-grid">
                 <div class="field-group">
                     <label>Fecha</label>
-                    <input id="f_fecha" placeholder="dd/mm/aaaa"/>
+                    <input id="f_fecha_viaje" placeholder="dd/mm/aaaa"/>
                 </div>
                 <div class="field-group">
                     <label>Placa</label>
@@ -105,37 +105,21 @@
                            onfocus="moneyFocus(this)"
                            onblur="moneyBlur(this)"/>
                 </div>
-                <div class="field-group">
-                    <label>Saldo</label>
-                    <input id="f_saldo"
-                           placeholder="$0"
-                           oninput="handleMoneyInput(this)"
-                           onfocus="moneyFocus(this)"
-                           onblur="moneyBlur(this)"/>
-                </div>
             </div>
 
-            <div class="section-title">ACPM</div>
+            <div class="section-title">Kilómetros y Galones</div>
             <div class="fields-grid">
                 <div class="field-group">
-                    <label>Km Origen</label>
+                    <label>Km Inicio</label>
                     <input id="f_km_origen"/>
                 </div>
                 <div class="field-group">
-                    <label>Km Recorrido</label>
-                    <input id="f_km_rec"/>
+                    <label>Galones Terpel</label>
+                    <input id="f_galones_terpel"/>
                 </div>
                 <div class="field-group">
-                    <label>Galones</label>
-                    <input id="f_galones"/>
-                </div>
-                <div class="field-group">
-                    <label>Valor ACPM</label>
-                    <input id="f_acpm"
-                           placeholder="$0"
-                           oninput="handleMoneyInput(this)"
-                           onfocus="moneyFocus(this)"
-                           onblur="moneyBlur(this)"/>
+                    <label>Galones Efectivo</label>
+                    <input id="f_galones_efectivo"/>
                 </div>
             </div>
         </div>

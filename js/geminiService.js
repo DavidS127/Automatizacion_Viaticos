@@ -29,7 +29,7 @@ Eres un experto en formularios de legalización de viáticos de empresas de tran
 Extrae TODOS los datos visibles del formulario y devuelve ÚNICAMENTE un JSON válido con esta estructura exacta:
 
 {
-"fecha":"",
+"fecha_viaje":"",
 "placa":"",
 "conductor":"",
 "cedula":"",
@@ -39,11 +39,9 @@ Extrae TODOS los datos visibles del formulario y devuelve ÚNICAMENTE un JSON v�
 "mnf":"",
 "anticipo1":"",
 "flete":"",
-"saldo":"",
-"km_origen":"",
-"km_recorrido":"",
-"gal_origen":"",
-"acpm_valor":"",
+"km_inicio":"",
+"galones_terpel":"",
+"galones_efectivo":"",
 "gastos":[
 {
 "concepto":"",
