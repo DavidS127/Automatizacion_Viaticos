@@ -110,9 +110,9 @@ function doPost(e) {
     Number(d.flete) || 0;
 
   const ruta =
-    (d.origen || "") +
+    (d.origen || "").toUpperCase() +
     " - " +
-    (d.destino || "");
+    (d.destino || "").toUpperCase();
 
   const motivoTexto =
     motivo.join(" , ").toUpperCase();
@@ -122,66 +122,66 @@ function doPost(e) {
 
   sheet.appendRow([
 
-    d.fecha,                 // FECHA
-    d.mnf,                   // MNF
-    d.placa,                 // PLACA
-    ruta,                    // RUTA
-    "",                      // MES CIERRE
-    d.conductor,             // CONDUCTOR
+    d.fecha,                    // FECHA
+    d.mnf,                      // MNF
+    d.placa,                    // PLACA
+    ruta,                       // RUTA
+    "",                         // MES CIERRE
+    d.conductor.toUpperCase(),  // CONDUCTOR
 
-    d.km_inicio,             // KM SALIDA
-    "",                      // KM LLEGADA
-    "",                      // KMS RECORRIDOS
+    d.km_inicio,                // KM SALIDA
+    "",                         // KM LLEGADA
+    "",                         // KMS RECORRIDOS
 
-    flete,                   // FLETE
-    anticipos,               // ANTICIPOS
+    flete,                      // FLETE
+    anticipos,                  // ANTICIPOS
 
-    peajes,                  // PEAJES
-    d.galones_efectivo,      // GALONES EFECTIVO
+    peajes,                     // PEAJES
+    d.galones_efectivo,         // GALONES EFECTIVO
 
-    acpmEfectivo,            // PRECIO ACPM EFECTIVO
-    "",                      // KM/GL
-    "",                      // LITROS
+    acpmEfectivo,               // PRECIO ACPM EFECTIVO
+    "",                         // KM/GL
+    "",                         // LITROS
 
-    urea,                    // UREA
-    parqueadero,             // PARQUEADERO
+    urea,                       // UREA
+    parqueadero,                // PARQUEADERO
 
-    cargue,                  // CARGUE
-    descargue,               // DESCARGUE
+    cargue,                     // CARGUE
+    descargue,                  // DESCARGUE
 
-    comision,                // COMISION
-    "",                      // BANCOS
+    comision,                   // COMISION
+    "",                         // BANCOS
 
-    lavado,                  // LAVADO
-    mantenimiento,            // ← CAMBIO: M/TTO ahora usa la variable real
-    descripcionMttoTexto,     // ← CAMBIO: DESCRIPCION ahora usa la nota real
+    lavado,                     // LAVADO
+    mantenimiento,              // M/TTO
+    descripcionMttoTexto,       // DESCRIPCION
 
-    otros,                   // OTROS
-    motivoTexto,             // MOTIVO
+    otros,                      // OTROS
+    motivoTexto,                // MOTIVO
 
-    "",                      // % CONDUCTOR
-    d.galones_terpel,        // GLN TERPEL
-    acpmTerpel,              // PRECIO TERPEL
+    "",                         // % CONDUCTOR
+    d.galones_terpel,           // GLN TERPEL
+    acpmTerpel,                 // PRECIO TERPEL
 
-    "",                      // TOTAL GASTOS
-    "",                      // UTILIDAD BRUTA
+    "",                         // TOTAL GASTOS
+    "",                         // UTILIDAD BRUTA
 
-    "",                      // RENT VIAJE
-    "",                      // SUELDO CONDUCTOR
+    "",                         // RENT VIAJE
+    "",                         // SUELDO CONDUCTOR
 
-    d.empresa,               // EMPRESA
+    d.empresa,                  // EMPRESA
 
-    "",                      // SALDO
+    "",                         // SALDO
 
-    "",                      // FECHA DE PAGO
-    "",                      // VR CANCELADO
-    "",                      // ESTADO PAGO
-    "",                      // FACT. ELECT.
-    "",                      // PROVEEDOR
-    "",                      // PRODUCTO
-    "",                      // VALOR
+    "",                         // FECHA DE PAGO
+    "",                         // VR CANCELADO
+    "",                         // ESTADO PAGO
+    "",                         // FACT. ELECT.
+    "",                         // PROVEEDOR
+    "",                         // PRODUCTO
+    "",                         // VALOR
 
-    ""                       // UTILIDAD NETA
+    ""                          // UTILIDAD NETA
 
   ]);
 
