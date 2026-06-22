@@ -50,7 +50,11 @@
         <div id="alertBox"></div>
 
         <div class="card">
-            <div class="section-title">Encabezado</div>
+            <div class="actions">
+                <button class="btn" onclick="goStep(1)">← Volver</button>
+                <button class="btn btn-primary" onclick="goStep(3)">Continuar →</button>
+            </div>
+            <div class="section-title">Datos del viaje</div>
             <div class="fields-grid">
                 <div class="field-group">
                     <label>Fecha</label>
@@ -142,13 +146,12 @@
                     onclick="addRow('','','')">
                 + Agregar fila
             </button>
-
-
-        </div>
-
-        <div class="actions">
+        
+            <div class="actions">
             <button class="btn" onclick="goStep(1)">← Volver</button>
             <button class="btn btn-primary" onclick="goStep(3)">Continuar →</button>
+        </div>
+
         </div>
 
     </div>
