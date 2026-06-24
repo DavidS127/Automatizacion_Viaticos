@@ -50,15 +50,11 @@
         <div id="alertBox"></div>
 
         <div class="card">
-            <div class="actions">
-                <button class="btn" onclick="goStep(1)">← Volver</button>
-                <button class="btn btn-primary" onclick="goStep(3)">Continuar →</button>
-            </div>
-            <div class="section-title">Datos del viaje</div>
+            <div class="section-title">Datos del Viaje</div>
             <div class="fields-grid">
                 <div class="field-group">
-                    <label>Fecha</label>
-                    <input id="f_fecha_viaje" placeholder="dd/mm/aaaa"/>
+                    <label>Fecha Viaje</label>
+                    <input id="f_fecha" placeholder="dd/mm/aaaa"/>
                 </div>
                 <div class="field-group">
                     <label>Placa</label>
@@ -91,23 +87,15 @@
                 </div>
             </div>
 
-            <div class="section-title">Anticipo y Flete</div>
+            <div class="section-title">Anticipos y Flete</div>
             <div class="fields-grid">
                 <div class="field-group">
                     <label>Anticipo 1</label>
-                    <input id="f_anticipo1"
-                           placeholder="$0"
-                           oninput="handleMoneyInput(this)"
-                           onfocus="moneyFocus(this)"
-                           onblur="moneyBlur(this)"/>
+                    <input id="f_anticipo1" placeholder="0" oninput="recalc()"/>
                 </div>
                 <div class="field-group">
                     <label>Flete</label>
-                    <input id="f_flete"
-                           placeholder="$0"
-                           oninput="handleMoneyInput(this)"
-                           onfocus="moneyFocus(this)"
-                           onblur="moneyBlur(this)"/>
+                    <input id="f_flete" placeholder="0"/>
                 </div>
             </div>
 
@@ -115,7 +103,7 @@
             <div class="fields-grid">
                 <div class="field-group">
                     <label>Km Inicio</label>
-                    <input id="f_km_origen"/>
+                    <input id="f_km_inicio"/>
                 </div>
                 <div class="field-group">
                     <label>Galones Terpel</label>
@@ -146,12 +134,11 @@
                     onclick="addRow('','','')">
                 + Agregar fila
             </button>
-        
-            <div class="actions">
-            <button class="btn" onclick="goStep(1)">← Volver</button>
-            <button class="btn btn-primary" onclick="goStep(3)">Continuar →</button>
         </div>
 
+        <div class="actions">
+            <button class="btn" onclick="goStep(1)">← Volver</button>
+            <button class="btn btn-primary" onclick="goStep(3);preseleccionarSheet()">Continuar →</button>
         </div>
 
     </div>
@@ -161,6 +148,18 @@
 
         <div class="card">
             <div class="section-title">Enviar a Google Sheets</div>
+
+            <div class="fields-grid">
+                <div class="field-group">
+                    <label>Excel destino</label>
+                    <select id="f_sheetDestino" onchange="onCambioSheetManual()" style="width:100%;padding:8px 10px;border-radius:8px;border:0.5px solid #ccc;font-size:14px;background:#fafafa;">
+                        <option value="">— Selecciona —</option>
+                        <option value="1">Flota Group</option>
+                        <option value="2">Flota Miguel</option>
+                    </select>
+                    <small id="sheetAutoHint" style="display:none;color:#2e7d32;font-size:11px;margin-top:4px;display:block;"></small>
+                </div>
+            </div>
 
             <div class="actions" style="margin-top:16px">
                 <button class="btn" onclick="goStep(2)">← Volver</button>
@@ -176,11 +175,10 @@
 
 </div>
 
-<script src="js/config.js"></script>
+<script src="js/config.local.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/fileManager.js"></script>
 <script src="js/formManager.js"></script>
-<script src="js/config.local.js"></script>
 <script src="js/geminiService.js"></script>
 <script src="js/sheetsService.js"></script>
 <script src="js/app.js"></script>
