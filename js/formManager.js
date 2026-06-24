@@ -22,7 +22,7 @@ function fillForm(d) {
     s('f_flete', d.flete);
     s('f_saldo', d.saldo);
 
-    s('f_km_origen', d.km_inicio);
+    s('f_km_inicio', d.km_inicio);
     s('f_galones_terpel', d.galones_terpel);
     s('f_galones_efectivo', d.galones_efectivo);
 
@@ -207,6 +207,7 @@ function getPayload() {
                 .replace(/[^0-9.-]/g,'')
         ) || 0;
 
+    console.log(f_galones_terpel)
     return {
 
         fecha:
@@ -239,7 +240,7 @@ function getPayload() {
             document.getElementById('f_flete').value,
 
         km_inicio:        
-            document.getElementById('f_km_origen').value,
+            document.getElementById('f_km_inicio').value,
 
         galones_terpel:    
             document.getElementById('f_galones_terpel').value,
