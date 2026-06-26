@@ -22,7 +22,7 @@ function fillForm(d) {
     s('f_flete', d.flete);
     s('f_saldo', d.saldo);
 
-    s('f_km_', d.km_inicio);
+    s('f_km_inicio', d.km_inicio);
     s('f_galones_terpel', d.galones_terpel);
     s('f_galones_efectivo', d.galones_efectivo);
 
