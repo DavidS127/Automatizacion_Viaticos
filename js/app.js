@@ -3,8 +3,7 @@ document.addEventListener(
     () => {
 
         initializeUploadZone();
-
         addRow('', '', '');
-
+        initLogo3D();
     }
 );
